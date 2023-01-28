@@ -3,6 +3,8 @@
 🍇🍇🍇 [エネがえるサンプル](https://qiita.com/ysakurada/items/b7d255ed8c5b6027530d)APIを利用したサンプルプログラム。  
 転職活動用です。  
 
+![成果物](./.development/img/fruit.gif)  
+
 ## 実行方法
 
 `.env.local.example`ファイルを`.env.local`にリネームし、各変数に値を設定してください。  
