@@ -64,6 +64,12 @@ export default function Setting() {
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
         <Button variant='outline-danger' onClick={SetDefault} className='mt-3 d-block mx-auto'>Set Default 🐙</Button>
+        <div className='mt-3'>
+        <Form.Check type='checkbox' id={`trust-device`}>
+          <Form.Check.Input type='checkbox' isValid />
+          <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
+        </Form.Check>
+        </div>
       </div>
     </Layout>
   );
