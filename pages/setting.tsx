@@ -61,7 +61,7 @@ export default function Setting() {
         <hr />
         <Form.Group className="mt-3">
           <Form.Label>Enter Password</Form.Label>
-          <Form.Control type="text" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
+          <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
         <Button variant='outline-danger' onClick={SetDefault} className='mt-3 d-block mx-auto'>Set Default 🐙</Button>
       </div>
