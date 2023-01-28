@@ -8,8 +8,8 @@ import setting from '../setting';
 
 export default function Setting() {
 
-  const [userinfo, setUserinfo] = useState<Userinfo>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [trust_device, setTrust_device] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const { sharedData, setSharedData } = useContext<
@@ -40,6 +40,9 @@ export default function Setting() {
     setSharedData(data);
   };
 
+  const SaveInStorage = () => {
+  };
+
   const Login = async () => {
     setError(null);
     setLoading(true);
@@ -63,8 +66,8 @@ export default function Setting() {
         username: sharedData.username,
         password: sharedData.password,
         uid: data.uid,
+        userinfo: data.userinfo,
       });
-      setUserinfo(data.userinfo);
       setLoading(false);
     });
   };
@@ -76,6 +79,7 @@ export default function Setting() {
       username: setting.username,
       password: setting.password,
       uid: sharedData.uid,
+      userinfo: null,
     });
   };
 
@@ -110,7 +114,7 @@ export default function Setting() {
         <hr />
         <h2>🍓 User Info</h2>
         {
-          userinfo !== null ?
+          sharedData.userinfo !== null ?
           <Table className='my-5'>
             <thead>
               <tr>
@@ -123,27 +127,27 @@ export default function Setting() {
               <tr>
                 <td>1</td>
                 <td>username</td>
-                <td>{userinfo.username}</td>
+                <td>{sharedData.userinfo.username}</td>
               </tr>
               <tr>
                 <td>2</td>
                 <td>group name</td>
-                <td>{userinfo.group_name}</td>
+                <td>{sharedData.userinfo.group_name}</td>
               </tr>
               <tr>
                 <td>3</td>
                 <td>corporation id</td>
-                <td>{userinfo.corporation_id}</td>
+                <td>{sharedData.userinfo.corporation_id}</td>
               </tr>
               <tr>
                 <td>4</td>
                 <td>ASP plan</td>
-                <td>{userinfo.ASPplan}</td>
+                <td>{sharedData.userinfo.ASPplan}</td>
               </tr>
               <tr>
                 <td>5</td>
                 <td>API plan</td>
-                <td>{userinfo.APIplan}</td>
+                <td>{sharedData.userinfo.APIplan}</td>
               </tr>
             </tbody>
           </Table>
@@ -154,7 +158,7 @@ export default function Setting() {
         <h2>⚙️ Setting</h2>
         <div className='mt-3'>
           <Form.Check type='checkbox' id={`trust-device`}>
-            <Form.Check.Input type='checkbox' isValid />
+            <Form.Check.Input type='checkbox' isValid checked={trust_device} onInput={(e) => {setTrust_device((e.target as HTMLInputElement).checked === false)}} />
             <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
           </Form.Check>
           <Button variant='outline-danger' size='sm' onClick={SetDefault} className='mt-3 d-block'>reset 🐙</Button>

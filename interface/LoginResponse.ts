@@ -2,7 +2,7 @@
 import Userinfo from "./Userinfo";
 
 type LoginResponse = {
-  uid: string | null;
+  uid: string;
   userinfo: Userinfo;
 };
 

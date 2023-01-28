@@ -11,12 +11,7 @@ import setting from '../setting';
 
 import React, { useState } from 'react';
 import { DataContext } from '../components/DataContext';
-
-type SharedData = {
-  api_key: string;
-  username: string;
-  password: string;
-};
+import SharedData from '../interface/SharedData';
 
 export default function MyApp({ Component, pageProps }) {
 
@@ -24,6 +19,8 @@ export default function MyApp({ Component, pageProps }) {
     api_key: setting.api_key,
     username: setting.username,
     password: setting.password,
+    uid: null,
+    userinfo: null,
   };
   const [sharedData, setSharedData] = useState(initialValue);
 
