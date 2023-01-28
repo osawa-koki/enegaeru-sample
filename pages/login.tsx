@@ -88,32 +88,43 @@ export default function Setting() {
   };
 
   const Login = async () => {
-    setError(null);
-    setLoadingLogin(true);
-    await new Promise((resolve) => setTimeout(resolve, setting.delay));
-    fetch(`${setting.apiPath}/v4/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': sharedData.api_key,
-      },
-      body: JSON.stringify({
-        id: sharedData.username,
-        password: sharedData.password,
-        forcelogin: true,
-      }),
-    })
-    .then((res) => res.json())
-    .then((data: LoginResponse) => {
-      setSharedData({
-        api_key: sharedData.api_key,
-        username: sharedData.username,
-        password: sharedData.password,
-        uid: data.uid,
-        userinfo: data.userinfo,
+    try {
+      setError(null);
+      setLoadingLogin(true);
+      await new Promise((resolve) => setTimeout(resolve, setting.delay));
+      fetch(`${setting.apiPath}/v4/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': sharedData.api_key,
+        },
+        body: JSON.stringify({
+          id: sharedData.username,
+          password: sharedData.password,
+          forcelogin: true,
+        }),
+      })
+      .then((res) => res.json())
+      .then((data: LoginResponse) => {
+        setSharedData({
+          api_key: sharedData.api_key,
+          username: sharedData.username,
+          password: sharedData.password,
+          uid: data.uid,
+          userinfo: data.userinfo,
+        });
+        setLoadingLogin(false);
+      })
+      .catch((ex) => {
+        setError(ex);
+        setLoadingLogin(false);
+        console.log(ex);
       });
+    } catch (ex) {
+      setError(ex);
       setLoadingLogin(false);
-    });
+      console.log(ex);
+    }
   };
 
   const Logout = async () => {
