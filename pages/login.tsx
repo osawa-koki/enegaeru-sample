@@ -3,7 +3,7 @@ import { DataContext } from '../components/DataContext';
 import { Button, Alert, Form, Table, Spinner } from 'react-bootstrap';
 
 import Layout from "../components/Layout";
-import { LoginResponse, Userinfo, SharedData } from '../interface/interface';
+import { LoginResponse, SharedData } from '../interface/interface';
 import setting from '../setting';
 
 export default function Setting() {
