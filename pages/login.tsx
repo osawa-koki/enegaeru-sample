@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../components/DataContext';
 import { Button, Alert, Form, Table, Spinner } from 'react-bootstrap';
 
@@ -44,12 +44,20 @@ export default function Setting() {
     SaveInStorage();
   };
 
+  const SaveInLocalStorage = () => {
+    localStorage.setItem('api_info', JSON.stringify(sharedData));
+  };
+
+  const SaveInSessionStorage = () => {
+    sessionStorage.setItem('api_info', JSON.stringify(sharedData));
+  };
+
   const SaveInStorage = () => {
     const isTrusted = trust_device;
     if (isTrusted) {
-      localStorage.setItem('api_info', JSON.stringify(sharedData));
+      SaveInLocalStorage();
     } else {
-      sessionStorage.setItem('api_info', JSON.stringify(sharedData));
+      SaveInSessionStorage();
     }
   };
 
@@ -57,9 +65,11 @@ export default function Setting() {
     const isTrusted = (e.target as HTMLInputElement).checked;
     setTrust_device(isTrusted);
     if (isTrusted) {
-      SaveInStorage();
+      DeleteFromSessionStorage();
+      SaveInLocalStorage();
     } else {
       DeleteFromLocalStorage();
+      SaveInSessionStorage();
     }
   };
 
@@ -142,6 +152,14 @@ export default function Setting() {
       userinfo: null,
     });
   };
+
+  useEffect(() => {
+    const api_info = sessionStorage.getItem('api_info');
+    if (api_info) {
+      const data = JSON.parse(api_info);
+      setSharedData(data);
+    }
+  }, []);
 
   return (
     <Layout>
