@@ -11,7 +11,22 @@ import Head from 'next/head';
 
 import setting from '../setting';
 
+import { DataContext } from '../components/DataContext';
+
+type SharedData = {
+  api_key: string;
+  username: string;
+  password: string;
+};
+
 export default function MyApp({ Component, pageProps }) {
+
+  const sharedData = {
+    api_key: setting.api_key,
+    username: setting.username,
+    password: setting.password,
+  };
+
   return (
     <>
       <Head>
@@ -20,7 +35,9 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" type="image/png" href={`${setting.basePath}/favicon.ico`} />
       </Head>
-      <Component {...pageProps} />
+      <DataContext.Provider value={sushi}>
+        <Component {...pageProps} />
+      </DataContext.Provider>
     </>
   );
 };
