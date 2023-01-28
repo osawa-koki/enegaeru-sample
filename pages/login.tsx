@@ -78,7 +78,7 @@ export default function Setting() {
       api_key: setting.api_key,
       username: setting.username,
       password: setting.password,
-      uid: sharedData.uid,
+      uid: null,
       userinfo: null,
     });
   };
@@ -158,7 +158,7 @@ export default function Setting() {
         <h2>⚙️ Setting</h2>
         <div className='mt-3'>
           <Form.Check type='checkbox' id={`trust-device`}>
-            <Form.Check.Input type='checkbox' isValid checked={trust_device} onInput={(e) => {setTrust_device((e.target as HTMLInputElement).checked === false)}} />
+            <Form.Check.Input type='checkbox' isValid checked={trust_device} onChange={(e) => {setTrust_device((e.target as HTMLInputElement).checked)}} />
             <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
           </Form.Check>
           <Button variant='outline-danger' size='sm' onClick={SetDefault} className='mt-3 d-block'>reset 🐙</Button>
