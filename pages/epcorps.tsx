@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import { Table, Alert } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { DataContext } from "../components/DataContext";
 import ForceLogin from "../components/ForceLogin";
 import Layout from "../components/Layout";
