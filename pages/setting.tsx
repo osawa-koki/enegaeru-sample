@@ -1,12 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { DataContext } from '../components/DataContext';
-import { Button, Alert, Form } from 'react-bootstrap';
+import { Button, Alert, Form, Table } from 'react-bootstrap';
 
 import Layout from "../components/Layout";
-import { SharedData } from '../interface/interface';
+import { LoginResponse, Userinfo, SharedData } from '../interface/interface';
 import setting from '../setting';
 
 export default function Setting() {
+
+  const [userinfo, setUserinfo] = useState<Userinfo>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const { sharedData, setSharedData } = useContext<
     {
@@ -36,7 +39,9 @@ export default function Setting() {
     setSharedData(data);
   };
 
-  const Login = () => {
+  const Login = async () => {
+    setError(null);
+    await new Promise((resolve) => setTimeout(resolve, setting.delay));
     fetch(`${setting.apiPath}/v4/login`, {
       method: 'POST',
       headers: {
@@ -44,13 +49,21 @@ export default function Setting() {
         'x-api-key': sharedData.api_key,
       },
       body: JSON.stringify({
-        username: sharedData.username,
+        id: sharedData.username,
         password: sharedData.password,
+        forcelogin: true,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
+    .then((res) => res.json())
+    .then((data: LoginResponse) => {
+      setSharedData({
+        api_key: sharedData.api_key,
+        username: sharedData.username,
+        password: sharedData.password,
+        uid: data.uid,
       });
+      setUserinfo(data.userinfo);
+    });
   };
 
   const SetDefault = () => {
@@ -82,6 +95,48 @@ export default function Setting() {
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
         <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto'>Login 🐙</Button>
+        {
+          userinfo !== null ?
+          <Table className='my-5'>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>キー</th>
+                <th>バリュー</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>username</td>
+                <td>{userinfo.username}</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>group name</td>
+                <td>{userinfo.group_name}</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>corporation id</td>
+                <td>{userinfo.corporation_id}</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>ASP plan</td>
+                <td>{userinfo.ASPplan}</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>API plan</td>
+                <td>{userinfo.APIplan}</td>
+              </tr>
+            </tbody>
+          </Table>
+          :
+          <Alert variant='danger' className='my-3'>ログインしていません。</Alert>
+        }
+        <hr />
         <div className='mt-3'>
         <Form.Check type='checkbox' id={`trust-device`}>
           <Form.Check.Input type='checkbox' isValid />
