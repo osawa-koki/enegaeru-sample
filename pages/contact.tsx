@@ -29,14 +29,14 @@ export default function HelloWorld() {
           <Form.Text>
             We'll never share your email with anyone else.
           </Form.Text>
-      </Form.Group>
-      {
-        mail_regex.test(mail) ? (
-          <Alert variant="success">Your email is valid.</Alert>
-        ) : (
-          <Alert variant="danger">Your email is invalid.</Alert>
-        )
-      }
+        </Form.Group>
+        {
+          mail_regex.test(mail) ? (
+            <Alert variant="success">Your email is valid.</Alert>
+          ) : (
+            <Alert variant="danger">Your email is invalid.</Alert>
+          )
+        }
       </div>
     </Layout>
   );
