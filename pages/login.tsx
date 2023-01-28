@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { DataContext } from '../components/DataContext';
-import { Button, Alert, Form, Table } from 'react-bootstrap';
+import { Button, Alert, Form, Table, Spinner } from 'react-bootstrap';
 
 import Layout from "../components/Layout";
 import { LoginResponse, Userinfo, SharedData } from '../interface/interface';
@@ -9,6 +9,7 @@ import setting from '../setting';
 export default function Setting() {
 
   const [userinfo, setUserinfo] = useState<Userinfo>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const { sharedData, setSharedData } = useContext<
@@ -41,6 +42,7 @@ export default function Setting() {
 
   const Login = async () => {
     setError(null);
+    setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, setting.delay));
     fetch(`${setting.apiPath}/v4/login`, {
       method: 'POST',
@@ -63,6 +65,7 @@ export default function Setting() {
         uid: data.uid,
       });
       setUserinfo(data.userinfo);
+      setLoading(false);
     });
   };
 
@@ -96,7 +99,14 @@ export default function Setting() {
           <Form.Label>Enter Password</Form.Label>
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
-        <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto'>Login 🐙</Button>
+        <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto' disabled={loading}>
+          {
+            loading === false ?
+            <>Login 🐙</>
+            :
+            <><Spinner variant="info" animation="grow" size='sm' />&nbsp;Logging in...</>
+          }
+        </Button>
         <hr />
         <h2>🍓 User Info</h2>
         {
