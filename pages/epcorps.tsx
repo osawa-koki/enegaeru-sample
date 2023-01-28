@@ -72,7 +72,7 @@ export default function Epcorps() {
             </div>
             {
               epcorps.map((epcorp, _) => (
-                <Table bordered={true} key={epcorp.id} id="EpcorpsContent" className={`${condition === '' || epcorp.epcorp_short_name.includes(condition) ? '' : 'd-none'}`}>
+                <Table bordered={true} key={epcorp.id} id="EpcorpsContent" className={`${condition === '' || epcorp.epcorp_short_name.includes(condition) ? 'on' : 'd-none'}`}>
                   <thead>
                     <tr>
                       <th>Key</th>
