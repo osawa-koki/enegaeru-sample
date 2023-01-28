@@ -4,6 +4,7 @@ import '../styles/styles.scss';
 import '../styles/menu.scss';
 
 import '../styles/index.scss';
+import '../styles/epcorps.scss';
 
 import Head from 'next/head';
 

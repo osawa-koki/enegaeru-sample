@@ -1,5 +1,5 @@
 
-type _EpcorpsComponent = {
+type EpcorpsResponse = {
   id: number;
   epcorp_short_name: string;
   surplus_selling: number;
@@ -8,10 +8,6 @@ type _EpcorpsComponent = {
   metiepcorp_cd: string;
   occtoepcorp_cd: string;
   occto_cd: string;
-};
-
-type EpcorpsResponse = {
-  epcorps: _EpcorpsComponent[];
 };
 
 export default EpcorpsResponse;

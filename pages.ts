@@ -20,6 +20,11 @@ const pages = [
     path: "/login/",
     name: "Login",
   },
+  {
+    emoji: "🦀",
+    path: "/epcorps/",
+    name: "epcorps",
+  },
 ];
 
 export default pages;
