@@ -45,11 +45,11 @@ export default function Setting() {
   };
 
   const SaveInLocalStorage = () => {
-    localStorage.setItem('api_info', JSON.stringify(sharedData));
+    localStorage.setItem(setting.storage_key, JSON.stringify(sharedData));
   };
 
   const SaveInSessionStorage = () => {
-    sessionStorage.setItem('api_info', JSON.stringify(sharedData));
+    sessionStorage.setItem(setting.storage_key, JSON.stringify(sharedData));
   };
 
   const SaveInStorage = () => {
@@ -80,11 +80,11 @@ export default function Setting() {
   };
 
   const DeleteFromSessionStorage = () => {
-    sessionStorage.removeItem('api_info');
+    sessionStorage.removeItem(setting.storage_key);
   };
 
   const DeleteFromLocalStorage = () => {
-    localStorage.removeItem('api_info');
+    localStorage.removeItem(setting.storage_key);
   };
 
   const Login = async () => {
@@ -154,10 +154,17 @@ export default function Setting() {
   };
 
   useEffect(() => {
-    const api_info = sessionStorage.getItem('api_info');
-    if (api_info) {
-      const data = JSON.parse(api_info);
-      setSharedData(data);
+    const localData = localStorage.getItem(setting.storage_key);
+    if (localData !== null) {
+      setSharedData(JSON.parse(localData));
+      setTrust_device(true);
+      return;
+    }
+    const sessionData = sessionStorage.getItem(setting.storage_key);
+    if (sessionData !== null) {
+      setSharedData(JSON.parse(sessionData));
+      setTrust_device(false);
+      return;
     }
   }, []);
 

@@ -12,6 +12,7 @@ const Setting = {
   username: process.env.NEXT_PUBLIC_ENEGAERU_USERNAME,
   password: process.env.NEXT_PUBLIC_ENEGAERU_PASSWORD,
   delay: 10,
+  storage_key: 'enegaeru_api_info',
 };
 
 export default Setting;
