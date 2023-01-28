@@ -8,7 +8,8 @@ import setting from '../setting';
 
 export default function Setting() {
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
+  const [loadingLogout, setLoadingLogout] = useState<boolean>(false);
   const [trust_device, setTrust_device] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +46,7 @@ export default function Setting() {
 
   const Login = async () => {
     setError(null);
-    setLoading(true);
+    setLoadingLogin(true);
     await new Promise((resolve) => setTimeout(resolve, setting.delay));
     fetch(`${setting.apiPath}/v4/login`, {
       method: 'POST',
@@ -68,7 +69,33 @@ export default function Setting() {
         uid: data.uid,
         userinfo: data.userinfo,
       });
-      setLoading(false);
+      setLoadingLogin(false);
+    });
+  };
+
+  const Logout = async () => {
+    if (confirm('Are you sure to logout?') === false) return;
+    setError(null);
+    setLoadingLogout(true);
+    await new Promise((resolve) => setTimeout(resolve, setting.delay));
+    fetch(`${setting.apiPath}/v4/logout`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': sharedData.api_key,
+        'Authorization': `${sharedData.uid}`,
+      },
+    })
+    .then((res) => res.text())
+    .then((_: any) => {
+      setSharedData({
+        api_key: sharedData.api_key,
+        username: sharedData.username,
+        password: sharedData.password,
+        uid: null,
+        userinfo: null,
+      });
+      setLoadingLogout(false);
     });
   };
 
@@ -103,9 +130,9 @@ export default function Setting() {
           <Form.Label>Enter Password</Form.Label>
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
-        <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto' disabled={loading}>
+        <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto' disabled={loadingLogin}>
           {
-            loading === false ?
+            loadingLogin === false ?
             <>Login 🐙</>
             :
             <><Spinner variant="info" animation="grow" size='sm' />&nbsp;Logging in...</>
@@ -116,42 +143,52 @@ export default function Setting() {
         <h2>🍓 User Info</h2>
         {
           sharedData.userinfo !== null ?
-          <Table className='my-5'>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>キー</th>
-                <th>バリュー</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>username</td>
-                <td>{sharedData.userinfo.username}</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>group name</td>
-                <td>{sharedData.userinfo.group_name}</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>corporation id</td>
-                <td>{sharedData.userinfo.corporation_id}</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>ASP plan</td>
-                <td>{sharedData.userinfo.ASPplan}</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>API plan</td>
-                <td>{sharedData.userinfo.APIplan}</td>
-              </tr>
-            </tbody>
-          </Table>
+          <>
+            <Table className='my-5'>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>キー</th>
+                  <th>バリュー</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>username</td>
+                  <td>{sharedData.userinfo.username}</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>group name</td>
+                  <td>{sharedData.userinfo.group_name}</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>corporation id</td>
+                  <td>{sharedData.userinfo.corporation_id}</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>ASP plan</td>
+                  <td>{sharedData.userinfo.ASPplan}</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>API plan</td>
+                  <td>{sharedData.userinfo.APIplan}</td>
+                </tr>
+              </tbody>
+            </Table>
+            <Button variant='outline-warning' size='sm' onClick={Logout} className='mt-3 d-block' disabled={loadingLogout}>
+              {
+                loadingLogout === false ?
+                <>Logout 👋</>
+                :
+                <><Spinner variant="warning" animation="grow" size='sm' />&nbsp;Logging out...</>
+              }
+            </Button>
+          </>
           :
           <Alert variant='warning' className='my-3'>ログインしていません。</Alert>
         }
