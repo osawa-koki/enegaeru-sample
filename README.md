@@ -18,6 +18,16 @@ yarn dev
 yarn build
 ```
 
+Dockerファイルでのビルドも可能です。  
+
+```shell
+# Dockerコンテナビルド
+docker build -t enegaeru-sample .
+
+# コンテナ実行
+docker run -it --rm -v $(pwd)/dist:/app/dist enegaeru-sample
+```
+
 ## With GH Actions
 
 作成した`.env.local`ファイルをリポジトリのSecretsに登録してください。  
