@@ -4,14 +4,27 @@ import '../styles/styles.scss';
 import '../styles/menu.scss';
 
 import '../styles/index.scss';
-import '../styles/about.scss';
-import '../styles/contact.scss';
+import '../styles/epcorps.scss';
 
 import Head from 'next/head';
 
 import setting from '../setting';
 
+import React, { useState } from 'react';
+import { DataContext } from '../components/DataContext';
+import SharedData from '../interface/SharedData';
+
 export default function MyApp({ Component, pageProps }) {
+
+  const initialValue: SharedData = {
+    api_key: setting.api_key,
+    username: setting.username,
+    password: setting.password,
+    uid: null,
+    userinfo: null,
+  };
+  const [sharedData, setSharedData] = useState(initialValue);
+
   return (
     <>
       <Head>
@@ -20,7 +33,9 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" type="image/png" href={`${setting.basePath}/favicon.ico`} />
       </Head>
-      <Component {...pageProps} />
+      <DataContext.Provider value={{ sharedData, setSharedData }}>
+        <Component {...pageProps} />
+      </DataContext.Provider>
     </>
   );
 };

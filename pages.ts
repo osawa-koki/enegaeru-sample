@@ -6,14 +6,14 @@ const pages = [
     name: "Home",
   },
   {
-    emoji: "📖",
-    path: "/about/",
-    name: "About",
+    emoji: "🐧",
+    path: "/login/",
+    name: "Login",
   },
   {
-    emoji: "💓",
-    path: "/contact/",
-    name: "Contact",
+    emoji: "🦀",
+    path: "/epcorps/",
+    name: "epcorps",
   },
 ];
 

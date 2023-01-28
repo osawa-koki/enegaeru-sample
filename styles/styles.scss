@@ -25,6 +25,12 @@ $footer_height: 5; // rem
 main {
   margin: #{$main_vertical_margin}px 0;
   padding: 0.5rem;
+  h1, h2, h3 {
+    margin: 1.5rem 0;
+  }
+  h4, h5, h6 {
+    margin: 1rem 0;
+  }
   @include media-breakpoint-up(md) {
     margin-left: 200px;
   }
