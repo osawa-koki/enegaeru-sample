@@ -80,6 +80,7 @@ export default function Setting() {
     <Layout>
       <div id="Setting" className="mt-3">
         <h1>🐧 Login 🐧</h1>
+        <hr />
         <h2>🌸 API Info</h2>
         <Form.Group className="mt-3">
           <Form.Label>Enter API key</Form.Label>
@@ -96,6 +97,7 @@ export default function Setting() {
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
         <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto'>Login 🐙</Button>
+        <hr />
         <h2>🍓 User Info</h2>
         {
           userinfo !== null ?
@@ -139,6 +141,7 @@ export default function Setting() {
           <Alert variant='warning' className='my-3'>ログインしていません。</Alert>
         }
         <hr />
+        <h2>⚙️ Setting</h2>
         <div className='mt-3'>
         <Form.Check type='checkbox' id={`trust-device`}>
           <Form.Check.Input type='checkbox' isValid />
