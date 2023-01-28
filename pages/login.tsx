@@ -111,6 +111,7 @@ export default function Setting() {
             <><Spinner variant="info" animation="grow" size='sm' />&nbsp;Logging in...</>
           }
         </Button>
+        <Button variant='outline-danger' size='sm' onClick={SetDefault} className='mt-3 d-block'>reset 🐙</Button>
         <hr />
         <h2>🍓 User Info</h2>
         {
@@ -161,7 +162,6 @@ export default function Setting() {
             <Form.Check.Input type='checkbox' isValid checked={trust_device} onChange={(e) => {setTrust_device((e.target as HTMLInputElement).checked)}} />
             <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
           </Form.Check>
-          <Button variant='outline-danger' size='sm' onClick={SetDefault} className='mt-3 d-block'>reset 🐙</Button>
         </div>
       </div>
     </Layout>
