@@ -4,6 +4,7 @@ import { Button, Alert, Form } from 'react-bootstrap';
 
 import Layout from "../components/Layout";
 import SharedData from '../interface/SharedData';
+import setting from '../setting';
 
 export default function Setting() {
 
@@ -35,6 +36,15 @@ export default function Setting() {
     setSharedData(data);
   };
 
+  const SetDefault = () => {
+    if (confirm('Are you sure to set default?') === false) return;
+    setSharedData({
+      api_key: setting.api_key,
+      username: setting.username,
+      password: setting.password,
+    });
+  };
+
   return (
     <Layout>
       <div id="Setting" className="mt-3">
@@ -53,6 +63,7 @@ export default function Setting() {
           <Form.Label>Enter Password</Form.Label>
           <Form.Control type="text" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
+        <Button variant='outline-danger' onClick={SetDefault} className='mt-3 d-block mx-auto'>Set Default 🐙</Button>
       </div>
     </Layout>
   );
