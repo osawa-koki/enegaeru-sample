@@ -64,6 +64,7 @@ export default function Setting() {
   };
 
   const DeleteFromStorages = () => {
+    if (confirm('Are you sure to delete all storages?') === false) return;
     DeleteFromSessionStorage();
     DeleteFromLocalStorage();
   };
