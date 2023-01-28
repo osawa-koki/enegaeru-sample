@@ -16,9 +16,9 @@ const pages = [
     name: "Contact",
   },
   {
-    emoji: "⚙️",
-    path: "/setting/",
-    name: "Setting",
+    emoji: "🐧",
+    path: "/login/",
+    name: "Login",
   },
 ];
 

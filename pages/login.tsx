@@ -79,7 +79,8 @@ export default function Setting() {
   return (
     <Layout>
       <div id="Setting" className="mt-3">
-        <h1>⚙️ Setting ⚙️</h1>
+        <h1>🐧 Login 🐧</h1>
+        <h2>🌸 API Info</h2>
         <Form.Group className="mt-3">
           <Form.Label>Enter API key</Form.Label>
           <Form.Control type="text" placeholder="Enter API_KEY" value={sharedData.api_key} onInput={SetApiKey} />
@@ -95,6 +96,7 @@ export default function Setting() {
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
         <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto'>Login 🐙</Button>
+        <h2>🍓 User Info</h2>
         {
           userinfo !== null ?
           <Table className='my-5'>
@@ -134,7 +136,7 @@ export default function Setting() {
             </tbody>
           </Table>
           :
-          <Alert variant='danger' className='my-3'>ログインしていません。</Alert>
+          <Alert variant='warning' className='my-3'>ログインしていません。</Alert>
         }
         <hr />
         <div className='mt-3'>
