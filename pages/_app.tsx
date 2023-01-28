@@ -21,7 +21,7 @@ type SharedData = {
 
 export default function MyApp({ Component, pageProps }) {
 
-  const sharedData = {
+  const sharedData: SharedData = {
     api_key: setting.api_key,
     username: setting.username,
     password: setting.password,
@@ -35,7 +35,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" type="image/png" href={`${setting.basePath}/favicon.ico`} />
       </Head>
-      <DataContext.Provider value={sushi}>
+      <DataContext.Provider value={sharedData}>
         <Component {...pageProps} />
       </DataContext.Provider>
     </>
