@@ -174,7 +174,7 @@ export default function Setting() {
       SaveInSessionStorage();
       DeleteFromLocalStorage();
     }
-  }, [sharedData]);
+  }, [sharedData, trust_device]);
 
   return (
     <Layout>
