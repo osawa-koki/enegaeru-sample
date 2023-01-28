@@ -11,7 +11,7 @@ export default function Setting() {
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
   const [loadingLogout, setLoadingLogout] = useState<boolean>(false);
   const [trust_device, setTrust_device] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const { sharedData, setSharedData } = useContext<
     {
@@ -25,7 +25,6 @@ export default function Setting() {
     const data = { ...sharedData };
     data.api_key = input.value;
     setSharedData(data);
-    SaveInStorage();
   };
 
   const SetUsername = (e: any) => {
@@ -33,7 +32,6 @@ export default function Setting() {
     const data = { ...sharedData };
     data.username = input.value;
     setSharedData(data);
-    SaveInStorage();
   };
 
   const SetPassword = (e: any) => {
@@ -41,7 +39,6 @@ export default function Setting() {
     const data = { ...sharedData };
     data.password = input.value;
     setSharedData(data);
-    SaveInStorage();
   };
 
   const SaveInLocalStorage = () => {
@@ -50,15 +47,6 @@ export default function Setting() {
 
   const SaveInSessionStorage = () => {
     sessionStorage.setItem(setting.storage_key, JSON.stringify(sharedData));
-  };
-
-  const SaveInStorage = () => {
-    const isTrusted = trust_device;
-    if (isTrusted) {
-      SaveInLocalStorage();
-    } else {
-      SaveInSessionStorage();
-    }
   };
 
   const DeviceTrustStateChanged = (e: any) => {
@@ -89,7 +77,7 @@ export default function Setting() {
 
   const Login = async () => {
     try {
-      setError(null);
+      setLoginError(null);
       setLoadingLogin(true);
       await new Promise((resolve) => setTimeout(resolve, setting.delay));
       fetch(`${setting.apiPath}/v4/login`, {
@@ -116,12 +104,12 @@ export default function Setting() {
         setLoadingLogin(false);
       })
       .catch((ex) => {
-        setError(ex);
+        setLoginError(ex.toString());
         setLoadingLogin(false);
         console.log(ex);
       });
     } catch (ex) {
-      setError(ex);
+      setLoginError(ex);
       setLoadingLogin(false);
       console.log(ex);
     }
@@ -129,7 +117,6 @@ export default function Setting() {
 
   const Logout = async () => {
     if (confirm('Are you sure to logout?') === false) return;
-    setError(null);
     setLoadingLogout(true);
     await new Promise((resolve) => setTimeout(resolve, setting.delay));
     fetch(`${setting.apiPath}/v4/logout`, {
@@ -179,6 +166,16 @@ export default function Setting() {
     }
   }, []);
 
+  useEffect(() => {
+    if (trust_device) {
+      SaveInLocalStorage();
+      DeleteFromSessionStorage();
+    } else {
+      SaveInSessionStorage();
+      DeleteFromLocalStorage();
+    }
+  }, [sharedData]);
+
   return (
     <Layout>
       <div id="Setting" className="mt-3">
@@ -207,6 +204,13 @@ export default function Setting() {
             <><Spinner variant="info" animation="grow" size='sm' />&nbsp;Logging in...</>
           }
         </Button>
+        {
+          loginError !== null &&
+          <Alert variant='danger' className='mt-3'>
+            <Alert.Heading>🐙 Login Error 🐙</Alert.Heading>
+            <p>{loginError}</p>
+          </Alert>
+        }
         <Button variant='outline-danger' size='sm' onClick={SetDefault} className='mt-3 d-block'>reset 🐙</Button>
         <hr />
         <h2>🍓 User Info</h2>
