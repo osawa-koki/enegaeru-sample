@@ -3,7 +3,7 @@ import { DataContext } from '../components/DataContext';
 import { Button, Alert, Form } from 'react-bootstrap';
 
 import Layout from "../components/Layout";
-import SharedData from '../interface/SharedData';
+import { SharedData } from '../interface/interface';
 import setting from '../setting';
 
 export default function Setting() {
@@ -36,12 +36,30 @@ export default function Setting() {
     setSharedData(data);
   };
 
+  const Login = () => {
+    fetch(`${setting.apiPath}/v4/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': sharedData.api_key,
+      },
+      body: JSON.stringify({
+        username: sharedData.username,
+        password: sharedData.password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+      });
+  };
+
   const SetDefault = () => {
     if (confirm('Are you sure to set default?') === false) return;
     setSharedData({
       api_key: setting.api_key,
       username: setting.username,
       password: setting.password,
+      uid: sharedData.uid,
     });
   };
 
@@ -63,7 +81,7 @@ export default function Setting() {
           <Form.Label>Enter Password</Form.Label>
           <Form.Control type="password" placeholder="Enter Password" value={sharedData.password} onInput={SetPassword} />
         </Form.Group>
-        <Button variant='outline-danger' onClick={SetDefault} className='mt-3 d-block mx-auto'>Set Default 🐙</Button>
+        <Button variant='outline-primary' onClick={Login} className='mt-3 d-block mx-auto'>Login 🐙</Button>
         <div className='mt-3'>
         <Form.Check type='checkbox' id={`trust-device`}>
           <Form.Check.Input type='checkbox' isValid />
