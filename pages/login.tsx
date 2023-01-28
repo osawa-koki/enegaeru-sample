@@ -25,6 +25,7 @@ export default function Setting() {
     const data = { ...sharedData };
     data.api_key = input.value;
     setSharedData(data);
+    SaveInStorage();
   };
 
   const SetUsername = (e: any) => {
@@ -32,6 +33,7 @@ export default function Setting() {
     const data = { ...sharedData };
     data.username = input.value;
     setSharedData(data);
+    SaveInStorage();
   };
 
   const SetPassword = (e: any) => {
@@ -39,9 +41,39 @@ export default function Setting() {
     const data = { ...sharedData };
     data.password = input.value;
     setSharedData(data);
+    SaveInStorage();
   };
 
   const SaveInStorage = () => {
+    const isTrusted = trust_device;
+    if (isTrusted) {
+      localStorage.setItem('api_info', JSON.stringify(sharedData));
+    } else {
+      sessionStorage.setItem('api_info', JSON.stringify(sharedData));
+    }
+  };
+
+  const DeviceTrustStateChanged = (e: any) => {
+    const isTrusted = (e.target as HTMLInputElement).checked;
+    setTrust_device(isTrusted);
+    if (isTrusted) {
+      SaveInStorage();
+    } else {
+      DeleteFromLocalStorage();
+    }
+  };
+
+  const DeleteFromStorages = () => {
+    DeleteFromSessionStorage();
+    DeleteFromLocalStorage();
+  };
+
+  const DeleteFromSessionStorage = () => {
+    sessionStorage.removeItem('api_info');
+  };
+
+  const DeleteFromLocalStorage = () => {
+    localStorage.removeItem('api_info');
   };
 
   const Login = async () => {
@@ -196,9 +228,10 @@ export default function Setting() {
         <h2>⚙️ Setting</h2>
         <div className='mt-3'>
           <Form.Check type='checkbox' id={`trust-device`}>
-            <Form.Check.Input type='checkbox' isValid checked={trust_device} onChange={(e) => {setTrust_device((e.target as HTMLInputElement).checked)}} />
+            <Form.Check.Input type='checkbox' isValid checked={trust_device} onChange={DeviceTrustStateChanged} />
             <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
           </Form.Check>
+          <Button variant='outline-danger' size='sm' onClick={DeleteFromStorages} className='mt-3 d-block'>delete all caches 🌲</Button>
         </div>
       </div>
     </Layout>
