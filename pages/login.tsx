@@ -143,10 +143,11 @@ export default function Setting() {
         <hr />
         <h2>⚙️ Setting</h2>
         <div className='mt-3'>
-        <Form.Check type='checkbox' id={`trust-device`}>
-          <Form.Check.Input type='checkbox' isValid />
-          <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
-        </Form.Check>
+          <Form.Check type='checkbox' id={`trust-device`}>
+            <Form.Check.Input type='checkbox' isValid />
+            <Form.Check.Label>{`Trust this device.`}</Form.Check.Label>
+          </Form.Check>
+          <Button variant='outline-danger' size='sm' onClick={SetDefault} className='mt-3 d-block'>reset 🐙</Button>
         </div>
       </div>
     </Layout>
