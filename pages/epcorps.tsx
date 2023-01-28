@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Spinner, Table } from "react-bootstrap";
 import { DataContext } from "../components/DataContext";
 import ForceLogin from "../components/ForceLogin";
 import Layout from "../components/Layout";
@@ -9,6 +9,7 @@ import Setting from "../setting";
 
 export default function Epcorps() {
 
+  const [settingup, setSettingup] = useState<boolean>(true);
   const [epcorps, setEpcorps] = useState<EpcorpsResponse[] | null>(null);
 
   const { sharedData, setSharedData } = useContext<
@@ -19,7 +20,10 @@ export default function Epcorps() {
   >(DataContext);
 
   useEffect(() => {
-    if (!sharedData.api_key || !sharedData.uid) return;
+    if (!sharedData.api_key || !sharedData.uid) {
+      setSettingup(false);
+      return;
+    }
     fetch(`${Setting.apiPath}/v4/epcorps`, {
       method: "GET",
       headers: {
@@ -31,6 +35,7 @@ export default function Epcorps() {
     .then((res) => res.json())
     .then((data: EpcorpsResponse[]) => {
       setEpcorps(data);
+      setSettingup(false);
     })
     .catch((err) => {
       console.error(err);
@@ -43,6 +48,16 @@ export default function Epcorps() {
         <h1>🦀 Epcorps</h1>
         <hr />
         {
+          settingup ? (
+            <div className="my-3 d-flex justify-content-evenly">
+              {
+                ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'].map((variant, _) => (
+                  <Spinner animation="border" variant={variant} key={variant} />
+                ))
+              }
+            </div>
+          )
+          :
           epcorps !== null && epcorps !== undefined ? (
             epcorps.map((epcorp, _) => (
               <Table bordered={true} key={epcorp.id} id="EpcorpsContent">
