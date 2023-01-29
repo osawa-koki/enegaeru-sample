@@ -9,7 +9,7 @@ export default function ForceLogin() {
         <Alert.Heading>🔐 Login Required</Alert.Heading>
         <p>
           You need to login to access this page.<br />Please go to{' '}
-          <Link href={`${Setting.basePath}/login/`}>
+          <Link href={`/login/`}>
             Login page
           </Link>.
         </p>
